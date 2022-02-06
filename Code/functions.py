@@ -1,36 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb  1 11:07:27 2022
 
 @author: MFLB
 """
+
 # Contient l'ensemble des fonctions nécessaires
 # pour l'exécution du main_code
 
-# Manipulation des données
-import numpy as np
-import pandas as pd
 
 # Librairie nltk pour traiter les mots
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-
-# Vectorisation des mots
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-# Outils de sklearn
-from sklearn.preprocessing import MultiLabelBinarizer
-#from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.pipeline import Pipeline
-
-# Réduction de dimension
-from sklearn.decomposition import TruncatedSVD
-
-# Modèles
-from sklearn.svm import LinearSVC
-from sklearn.multiclass import OneVsRestClassifier
 
 # Data Persistence
 import joblib
@@ -78,34 +60,53 @@ def get_preprocessed_text(raw_question,raw_text):
     lemmatizer = WordNetLemmatizer()
 
     # Récupération des lems
-    text = [lemmatizer.lemmatize(token) for token in token_noun]
+    lemmed_text = [lemmatizer.lemmatize(token) for token in token_noun]
     
-    return text
+    return lemmed_text
 
-# import du MultilabelBinarizer
-filename_mlb = "./models/mlb_model.joblib"
-mlb = joblib.load(filename_mlb)
 
 # prédiction des tags
-def predict_tags(model, lemmed_text):
+def predict_tags(lemmed_text):
 
     """ Fonction pour afficher la liste des tags prédits par le
     modèle
     
     - Arguments :
-        - model : modèle à utiliser pour la prédiction
-        - lemmed_text : texte dont il faut prédire les tags
+        - lemmed_text : texte pré-processé dont il faut prédire les tags
     
     - Retourne:
          - pred_tags_list : la liste des tags, en filtrant sur les mots 
          présents dans le texte
     """
 
+    # import du modèle
+    pipeline_SVM_10 = joblib.load("./models/pipeline_SVM_10.joblib")
+   
     # Application du modèle
-    text_model = model.predict(lemmed_text)
+    pred_tags = pipeline_SVM_10.predict(lemmed_text)
+    
+    return pred_tags
+
+# transformation des tags vectorisés en "mots"
+def get_tags(pred_tags, lemmed_text):
+
+    """ Fonction pour afficher la liste des tags prédits par le
+    modèle
+    
+    - Arguments :
+        - pred_tags : tags prédits en sortie du modèle
+        - lemmed_text : texte pré-processé dont il faut prédire les tags
+    
+    - Retourne:
+         - pred_tags_list : la liste des tags, en filtrant sur les mots 
+         présents dans le texte
+    """
+
+    # import du MultilabelBinarizer
+    mlb = joblib.load("./models/mlb_model.joblib")
 
     # Récupération des labels
-    text_tags = mlb.inverse_transform(text_model)
+    text_tags = mlb.inverse_transform(pred_tags)
 
     # Liste des tags
     pred_tags_list = list(
@@ -115,4 +116,4 @@ def predict_tags(model, lemmed_text):
     # Filtrage sur les mots présents dans le lemmed_text
     pred_tags_list = [tag for tag in pred_tags_list if tag in lemmed_text]
 
-    return pred_tags_list
+    return ", ".join(pred_tags_list)
