@@ -12,7 +12,7 @@ Le dossier Code contient
 
 L'API utilisée est FastApi (site web de FastApi https://fastapi.tiangolo.com/#run-it).
 
-Via le terminal (en se plaçant dans le répertoire contenant les fichiers python), on lance la commance suivante :
+Via le terminal (en se plaçant dans le répertoire contenant les fichiers python et le dossier models), on lance la commance suivante :
 uvicorn main:app --reload
 L'API est ensuite disponible sur http://127.0.0.1:8000/docs#/
 
