@@ -8,7 +8,7 @@ Le dossier Code contient
 - les fichiers python à exécuter :
   - un fichier main.py avec le code pour l'API
   - un fichier functions.py avec les fonctions appelées dans le fichier main.py
-- un dossier models où se trouvent les modèles enregistrés au format joblib nécessaires à l'exécution des fonctions.
+- un dossier models où se trouvent les éléments enregistrés au format joblib nécessaires à l'exécution des fonctions (pipeline du modèle final, encodage des tags).
 
 L'API utilisée est FastApi (site web de FastApi https://fastapi.tiangolo.com/#run-it).
 
