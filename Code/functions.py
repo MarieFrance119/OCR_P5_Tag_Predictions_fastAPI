@@ -8,6 +8,8 @@
 # Contient l'ensemble des fonctions nécessaires
 # pour l'exécution du main_code
 
+# Parsing des données texte
+from bs4 import BeautifulSoup
 
 # Librairie nltk pour traiter les mots
 import nltk
@@ -34,6 +36,9 @@ def get_preprocessed_text(raw_question,raw_text):
     
     # fusion de la question et du post
     text = raw_question + " " + raw_text
+
+    # Parsage du texte et supprimer balises html
+    text = BeautifulSoup(text, "html.parser").get_text()
     
     # Tokenizer pour récupérer que les termes avec des lettres
     tokenizer = nltk.RegexpTokenizer(r"[a-zA-Z]+")
