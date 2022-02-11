@@ -18,5 +18,5 @@ uvicorn main:app --reload
 
 L'API est ensuite disponible sur http://127.0.0.1:8000/docs#/
 
-## Autre API
+### Autre API
 Une autre API (déployée sur le web) pour tester la prédiction de tag est disponible [ici](https://share.streamlit.io/mariefrance119/ocr_p5_tag_predictions_api/main/main.py) avec le [repository associé](https://github.com/MarieFrance119/OCR_P5_Tag_Predictions_API).
