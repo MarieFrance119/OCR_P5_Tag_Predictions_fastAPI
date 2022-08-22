@@ -1,4 +1,4 @@
-# OCR-P5
+# OCR_P5_Tag_Predictions_fastAPI
 ## Categorize questions
 Contient le code à déployer pour une mise en production sur une API.
 
